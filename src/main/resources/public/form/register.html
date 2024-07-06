@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+
+<div class="background-wrap">
+    <div class="background"></div>
+</div>
+
+<form id="registerForm">
+    <h1 id="litheader">ESG Report</h1>
+    <div class="inset">
+        <p class="p-container">
+            <input type="button" name="connect" id="connect-button" value="connect wallet">
+        </p>
+        <p>
+            <input type="text" name="walletAddress" id="wallet-address" readonly placeholder="Wallet Address">
+        </p>
+        <p>
+            <input type="email" name="email" id="email" placeholder="email">
+        </p>
+        <p>
+            <input type="password" name="password" id="password" placeholder="password">
+        </p>
+<!--        <div style="text-align: center;">-->
+            <!--            <div class="checkboxouter">-->
+            <!--                <input type="checkbox" name="rememberme" id="remember" value="Remember">-->
+            <!--                <label class="checkbox"></label>-->
+            <!--            </div>-->
+            <!--            <label for="remember">Remember me for 14 days</label>-->
+<!--        </div>-->
+        <!--        <input class="loginLoginValue" type="hidden" name="service" value="login" />-->
+    </div>
+    <p class="p-container">
+        <input type="submit" name="Login" id="go" value="Login">
+    </p>
+    <p class="p-notice">
+        Do you have account? <a href="/re-login">click here!</a>
+    </p>
+</form>
+<script type="text/javascript">
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const json = JSON.stringify(Object.fromEntries(formData.entries()));
+
+        fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: json
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    console.log('Registration failed:', data);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('connect-button').addEventListener('click', async () => {
+        if (window.ethereum) {
+            const web3 = new Web3(window.ethereum);
+            try {
+                // Request account access if needed
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+                // Accounts now exposed
+                const accounts = await web3.eth.getAccounts();
+                const account = accounts[0];
+
+                // Set the wallet address in the input field
+                document.getElementById('wallet-address').value = account;
+            } catch (error) {
+                console.error("User denied account access");
+            }
+        } else {
+            console.error("No Ethereum provider found. Install MetaMask!");
+        }
+    });
+</script>
+</body>
+</html>

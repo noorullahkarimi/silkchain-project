@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>silkchain Dashboard</title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+  <!-- CSS Files -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="assets/css/demo.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+<div class="wrapper">
+  <div class="sidebar" data-image="assets/img/sidebar-5.jpg" data-color="silkchain">
+    <!--
+Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+Tip 2: you can also add an image using data-image tag
+-->
+    <div class="sidebar-wrapper">
+      <div class="logo">
+        <a href="http://www.creative-tim.com" class="simple-text">
+          Silk Chain project
+        </a>
+      </div>
+      <ul class="nav">
+        <li>
+          <a class="nav-link" href="dashboard.html">
+            <i class="nc-icon nc-chart-pie-35"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="profile.html">
+            <i class="nc-icon nc-circle-09"></i>
+            <p>User Profile</p>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="table.html">
+            <i class="nc-icon nc-notes"></i>
+            <p>Flow Meter Records</p>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#pablo"> User Profile </a>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <ul class="nav navbar-nav mr-auto">
+
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#pablo">
+                <span class="no-icon" id="logoutButton">Log out</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <script>
+      document.getElementById('logoutButton').addEventListener('click', function() {
+        fetch('/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+                .then(response => {
+                  if (response.ok) {
+                    // پاک کردن اطلاعات کاربر از localStorage یا sessionStorage اگر وجود دارد
+                    localStorage.removeItem('token');
+                    // هدایت کاربر به صفحه ورود
+                    window.location.href = '/re-login';
+                  } else {
+                    console.error('Logout failed:', response);
+                  }
+                })
+                .catch(error => console.error('Error:', error));
+      });
+
+    </script>
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Edit Profile</h4>
+              </div>
+              <div class="card-body">
+                <form>
+<!--                  <button id="connect-button" class="btn btn-info btn-fill pull-right">Connect your Wallet</button>-->
+                  <input class="btn btn-info btn-fill pull-right" type="button" name="connect" id="connect-button" value="connect wallet">
+                  <div class="clearfix"></div>
+
+                  <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Wallet Address</label>
+                        <input type="text" id="wallet-address" class="form-control" readonly placeholder="Wallet Address" >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                      <label>Email</label>
+                      <input type="text" class="form-control" placeholder="e.g. example@gmail.com">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. James" >
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="e.g. Carter" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Address (complete Address)</label>
+                        <input type="text" class="form-control" placeholder="e.g. America - chicago">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>City</label>
+                        <input type="text" class="form-control" placeholder="e.g. Chicago" >
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Country</label>
+                        <input type="text" class="form-control" placeholder="e.g. America" >
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>About Me</label>
+                        <textarea rows="4" cols="80" class="form-control" placeholder="e.g. your job title, age, favorites." ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                  <div class="clearfix"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container-fluid">
+        <nav>
+          <p class="copyright text-center">
+            ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+            <a href="#">Silk Chain project</a>
+          </p>
+        </nav>
+      </div>
+    </footer>
+  </div>
+</div>
+<script>
+  document.getElementById('connect-button').addEventListener('click', async () => {
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      try {
+        // Request account access if needed
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Accounts now exposed
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+
+        // Set the wallet address in the input field
+        document.getElementById('wallet-address').value = account;
+      } catch (error) {
+        console.error("User denied account access");
+      }
+    } else {
+      console.error("No Ethereum provider found. Install MetaMask!");
+    }
+  });
+</script>
+
+</body>
+<!--   Core JS Files   -->
+<script src="assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="assets/js/demo.js"></script>
+
+
+</html>
