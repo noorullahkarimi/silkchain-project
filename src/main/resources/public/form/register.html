@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <link href="styles.css" rel="stylesheet">
+    <link href="loading.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="myjs.js"></script>
 </head>
 <body>
+<!--show toast-->
+<div id="toast-container"></div>
+<!--show loading-->
+<div id="loading" class="loading">
+    <div class="loader"></div>
+</div>
 
 <div class="background-wrap">
     <div class="background"></div>
@@ -37,7 +45,7 @@
         <!--        <input class="loginLoginValue" type="hidden" name="service" value="login" />-->
     </div>
     <p class="p-container">
-        <input type="submit" name="Login" id="go" value="Login">
+        <input type="submit" name="register" id="go" value="register">
     </p>
     <p class="p-notice">
         Do you have account? <a href="/re-login">click here!</a>
@@ -46,6 +54,9 @@
 <script type="text/javascript">
     document.getElementById('registerForm').addEventListener('submit', function(event) {
         event.preventDefault();
+
+        // نمایش لودینگ
+        document.getElementById("loading").style.display = "flex";
 
         const formData = new FormData(event.target);
         const json = JSON.stringify(Object.fromEntries(formData.entries()));
@@ -60,12 +71,18 @@
             .then(response => response.json())
             .then(data => {
                 if (data.redirectUrl) {
+                    showToast('Register successfully!', ALERT_SUCCESS);
                     window.location.href = data.redirectUrl;
                 } else {
+                    showToast('Please check data again', ALERT_DANGER);
                     console.log('Registration failed:', data);
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+            // مخفی کردن لودینگ
+            document.getElementById("loading").style.display = "none";
+        });
     });
 
     document.getElementById('connect-button').addEventListener('click', async () => {
@@ -78,7 +95,6 @@
                 // Accounts now exposed
                 const accounts = await web3.eth.getAccounts();
                 const account = accounts[0];
-
                 // Set the wallet address in the input field
                 document.getElementById('wallet-address').value = account;
             } catch (error) {

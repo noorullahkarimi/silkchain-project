@@ -28,4 +28,16 @@ public class WebController {
     public String showDashboard(){
         return "redirect:/dashboard/dashboard.html";
     }
+
+    //show the page of table
+    @RequestMapping("/flometer")
+    public String showFlometersData(){
+        return "redirect:/dashboard/table.html";
+    }
+    //show the page of dashboard
+    @RequestMapping("/profile")
+    public String showProfil(){
+        return "redirect:/dashboard/profile.html";
+    }
+
 }

@@ -5,10 +5,18 @@
     <title>Login</title>
     <link href="styles.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <link href="../form/loading.css" rel="stylesheet">
 </head>
 <body>
 <div class="background-wrap">
     <div class="background"></div>
+</div>
+<!--show toast-->
+<div id="toast-container"></div>
+<!--show the loading-->
+<div id="loading" class="loading">
+    <div class="loader"></div>
 </div>
 
 <form id="registerForm">
@@ -39,11 +47,12 @@
         You don't have account? <a href="/re-register">click here!</a>
     </p>
 </form>
-
+<script src="myjs.js"></script>
 <script type="text/javascript">
     document.getElementById('registerForm').addEventListener('submit', function(event) {
         event.preventDefault();
-
+        // نمایش لودینگ
+        document.getElementById("loading").style.display = "flex";
         const formData = new FormData(event.target);
         const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
@@ -57,12 +66,17 @@
             .then(response => response.json())
             .then(data => {
                 if (data.redirectUrl) {
+                    showToast('Login successfully!', ALERT_SUCCESS);
                     window.location.href = data.redirectUrl;
                 } else {
+                    showToast('Please check data again', ALERT_DANGER);
                     console.log('Login failed:', data);
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error:', error)).finally(() => {
+            // مخفی کردن لودینگ
+            document.getElementById("loading").style.display = "none";
+        });
     });
 
     document.getElementById('connect-button').addEventListener('click', async () => {

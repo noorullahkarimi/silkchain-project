@@ -58,14 +58,21 @@ public class AuthController {
             System.out.println("<<<<<<<<< user tried to login without wallet address >>>>>>>>>");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid wallet address or password");
         }
+        boolean isAdmin = false;
+        // check user has admin role or not  in db
+        isAdmin = userService.isAdminByRole(loginRequest.getWalletAddress());
 
-        // Check user role via external API
-        boolean isAdmin = checkUserRole(user.getWalletAddress());
+        if (!isAdmin){// if user has not role in db
+            System.out.println("-----user has no role in db so we use api-----");
+            // Check user role via external API & update role for next login
+            isAdmin = checkUserRole(user.getWalletAddress());
+            userService.updateUserRole(user.getWalletAddress(), "ROLE_ADMIN");
+        }
 
         if (isAdmin) {
             System.out.println("<<<<<<<<< user is entered with Admin account : " + user.getWalletAddress() + ">>>>>>>>>");
-            userService.updateUserRole(user.getWalletAddress(), "ROLE_ADMIN");
             session.setAttribute("role", "ROLE_ADMIN");  // ذخیره نقش در نشست
+            session.setAttribute("wallet", user.getWalletAddress());
             System.out.println("Role set in session: ROLE_ADMIN");
         } else {
             session.setAttribute("role", "ROLE_USER");  // نقش پیش‌فرض
@@ -73,7 +80,7 @@ public class AuthController {
         }
 
         // Redirect based on role
-        String redirectUrl = isAdmin ? "/admin" : "/user";
+        String redirectUrl = isAdmin ? "/admin" : "/admin";
         Map<String, String> response = new HashMap<>();
         response.put("redirectUrl", redirectUrl);
 

@@ -1,20 +1,22 @@
 package com.silkchain.Silkchain.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "flowmeter")
 public class Flowmeter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private float input;
+
+    @ElementCollection
+    private List<FlowmeterInput> inputs;
+
     private float output;
     private String batchId;
     private String devicecode;
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -23,12 +25,12 @@ public class Flowmeter {
         this.id = id;
     }
 
-    public float getInput() {
-        return input;
+    public List<FlowmeterInput> getInputs() {
+        return inputs;
     }
 
-    public void setInput(float input) {
-        this.input = input;
+    public void setInputs(List<FlowmeterInput> inputs) {
+        this.inputs = inputs;
     }
 
     public float getOutput() {

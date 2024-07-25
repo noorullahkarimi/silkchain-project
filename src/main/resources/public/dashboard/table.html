@@ -16,9 +16,18 @@
     <link href="assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="assets/css/demo.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="assets/css/loading.css" rel="stylesheet">
 </head>
 
 <body>
+<!--show toast-->
+    <div id="toast-container"></div>
+<!--show loading-->
+<div id="loading" class="loading">
+    <div class="loader"></div>
+</div>
+
     <div class="wrapper">
         <div class="sidebar" data-image="assets/img/sidebar-5.jpg" data-color="silkchain">
             <!--
@@ -32,25 +41,8 @@
                        Silk Chain project
                     </a>
                 </div>
-                <ul class="nav">
-                    <li>
-                        <a class="nav-link" href="dashboard.html">
-                            <i class="nc-icon nc-chart-pie-35"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="profile.html">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p>User Profile</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="table.html">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>Flow Meter Records</p>
-                        </a>
-                    </li>
+                <ul class="nav" id="load-nav">
+                <!-- show the navbar for admin or user -->
                 </ul>
             </div>
         </div>
@@ -58,7 +50,7 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                     <a class="navbar-brand" href="#pablo"> Table List </a>
+                     <a class="navbar-brand" href="#pablo"> Flow Meter Records </a>
 
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
                        <ul class="nav navbar-nav mr-auto">
@@ -76,6 +68,7 @@
                 </div>
             </nav>
             <script>
+
                 document.getElementById('logoutButton').addEventListener('click', function() {
                     fetch('/api/auth/logout', {
                         method: 'POST',
@@ -98,94 +91,77 @@
 
             </script>
             <!-- End Navbar -->
-            <div class="content">
+            <div class="content" id="content-table" >
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-md-12">
 
                         <div class="col-md-12">
                             <div class="card card-plain table-plain-bg">
-                                <div class="card-header ">
-                                    <h4 class="card-title">History Of Last Record</h4>
-                                    <p class="card-category">please confirm or edit them with click on check button</p>
-                                </div>
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover" id="table-flow">
                                         <thead>
+                                        <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Address Wallet</th>
-                                            <th>set number</th>
-                                            <th>action</th>
+                                            <th>Output</th>
+                                            <th>Batch ID</th>
+                                            <th>Device Code</th>
+                                            <th>Inputs</th>
+<!--                                            <th>Action</th>-->
+                                        </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Ahmad Nazir</td>
-                                                <td>0xkdlf654s4f564sd5f4sd</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Saeed Tehrani</td>
-                                                <td>0x5s4d5f4s564df564s5sd</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Noorullah Karimi</td>
-                                                <td>0xs5df45sd45f4s5d4f55ss</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td>Ali Ahmadi</td>
-                                                <td>0xds5df45sd4f5df45sd4f5s</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td>Raha hemati</td>
-                                                <td>0xf5d5y4tryt5uyt85ewr45d</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td>Mansour Ebrahemi</td>
-                                                <td>0xoeri98re9809r8we908e9d</td>
-                                                <td>25548</td>
-                                                <td>
-                                                    <i class="nc-icon nc-ruler-pencil silkchain-button"></i>
-                                                    <i class="nc-icon nc-check-2 silkchain-button"></i>
-                                                </td>
-                                            </tr>
+                                        <tbody id="flowmeterTableBody">
+                                        <!-- Rows will be added here by JavaScript -->
                                         </tbody>
                                     </table>
+                                    <div>
+                                        <button id="prevButton">Previous</button>
+                                        <button id="nextButton">Next</button>
+                                    </div>
+<!--                                    <script src="path/to/your/js/jquery.min.js"></script>-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+<!--   start flow -->
+        <div class="row">
+            <div class="col-md-12">
+                <div id="form-flow" >
+                    <input type="hidden" id="hidden-id">
+                    <form id="submit-wallet" style="display: none">
+                        <div id="inputs-container"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 pr-1">
+                                <div class="form-group">
+                                    <label>Output</label>
+                                    <input type="number" name="Output" id="output" class="form-control" readonly placeholder="per liter">
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1">
+                                <div class="form-group">
+                                    <label>Batch Id</label>
+                                    <input type="text" name="BatchId" id="batch-id" class="form-control" readonly placeholder="Batch Id (random)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Device Code</label>
+                                    <input type="text" name="Devicecode" id="devicecode" class="form-control" readonly placeholder="code device (random)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Record</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+<!--   end flow-->
             </div>
             <footer class="footer">
                 <div class="container-fluid">
@@ -222,5 +198,129 @@
 <script src="assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="assets/js/demo.js"></script>
+<!--this js is for me-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="assets/js/myjs.js"></script>
 
+<script>
+
+    let currentPage = 0;
+    const pageSize = 10;
+
+    function loadTableData(page) {
+        $.ajax({
+            url: `/dashboard/api/v1/flowmeters?page=${page}&size=${pageSize}`,
+            method: 'GET',
+            success: function(data) {
+                const tableBody = $('#flowmeterTableBody');
+                tableBody.empty();
+                data.content.forEach(flowmeter => {
+                    const inputs = flowmeter.inputs.map(input => `<li>${input.input} (${input.walletAddress})</li>`).join('');
+                    const row = `<tr onclick="changerow(${flowmeter.id}, '${flowmeter.batchId}');">
+                                    <td>${flowmeter.id}</td>
+                                    <td>${flowmeter.output}</td>
+                                    <td>${flowmeter.batchId}</td>
+                                    <td>${flowmeter.devicecode}</td>
+                                    <td><ul>${inputs}</ul></td>
+                                </tr>`;
+                    tableBody.append(row);
+                });
+
+                currentPage = data.number;
+                $('#prevButton').prop('disabled', data.first);
+                $('#nextButton').prop('disabled', data.last);
+            }
+        });
+    }
+    document.getElementById('submit-wallet').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const entries = Array.from(formData.entries());
+        const data = {
+            inputs: [],
+            output: parseFloat(formData.get('Output')),
+            batchId: formData.get('BatchId'),
+            devicecode: formData.get('Devicecode')
+        };
+
+        entries.forEach(([key, value]) => {
+            if (key.startsWith('Input')) {
+                const index = key.replace('Input', '');
+                if (!data.inputs[index]) {
+                    data.inputs[index] = {};
+                }
+                data.inputs[index].input = parseFloat(value);
+            }
+            if (key.startsWith('walletAddress')) {
+                const index = key.replace('walletAddress', '');
+                if (!data.inputs[index]) {
+                    data.inputs[index] = {};
+                }
+                data.inputs[index].walletAddress = value;
+            }
+        });
+
+        const json = JSON.stringify(data);
+        const id = document.getElementById("hidden-id").value;
+        const url = '/api/v1/record/update/' + id;
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: json
+        })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("table-flow").style.display = "block";
+                    document.getElementById("submit-wallet").style.display = "none";
+                    showToast('Data updated successfully', ALERT_SUCCESS);
+                    window.location.href = '/flometer';
+                } else {
+                    showToast('Error in update', ALERT_DANGER);
+                }
+            })
+            .catch(error => {
+                showToast('Network error', ALERT_DANGER);
+            });
+    });
+
+    $(document).ready(function() {
+        loadTableData(currentPage);
+
+        // Initialize select2 on page load
+        $('#wallet').select2({
+            placeholder: 'Select a wallet address',
+            allowClear: true
+        });
+
+        $('#prevButton').click(function() {
+            if (currentPage > 0) {
+                loadTableData(currentPage - 1);
+            }
+        });
+
+        $('#nextButton').click(function() {
+            loadTableData(currentPage + 1);
+        });
+    });
+
+    $(document).ready(function() {
+        loadTableData(currentPage);
+        loadNavbar();
+
+        $('#prevButton').click(function() {
+            if (currentPage > 0) {
+                loadTableData(currentPage - 1);
+            }
+        });
+
+        $('#nextButton').click(function() {
+            loadTableData(currentPage + 1);
+        });
+    });
+
+</script>
 </html>
